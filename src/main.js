@@ -6,6 +6,7 @@ import { showToast } from './js/izi-toast';
 const form = document.querySelector('.form-container');
 const queryInput = form.querySelector('input[name="query"]');
 const loader = document.querySelector('.downloader');
+const loadingMessage = document.querySelector('.loading-message'); // Додано
 let currentPage = 1;
 
 form.addEventListener('submit', async event => {
@@ -19,10 +20,12 @@ form.addEventListener('submit', async event => {
 
   clearGallery();
   loader.style.display = 'block';
+  loadingMessage.style.display = 'block'; // Показуємо повідомлення
 
   try {
     const data = await fetchImages(query, currentPage);
     loader.style.display = 'none';
+    loadingMessage.style.display = 'none'; // Сховуємо повідомлення
 
     if (data.hits.length === 0) {
       showToast(
@@ -36,6 +39,7 @@ form.addEventListener('submit', async event => {
     }
   } catch (error) {
     loader.style.display = 'none';
+    loadingMessage.style.display = 'none'; // Сховуємо повідомлення
     showToast('error', 'Failed to fetch images.', 'Error');
   }
 });
